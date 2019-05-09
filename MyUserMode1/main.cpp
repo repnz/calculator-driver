@@ -1,41 +1,13 @@
-#include <windows.h>
-#include <winioctl.h>
-#include <MyDriver1/ioctl.h>
 #include <iostream>
+#include "calculator.h"
 
 int main() {
 
-	std::cout << "[+] Initializing Device..." << std::endl;
-
-	HANDLE hDevice = CreateFile(
-		"\\\\.\\Calculator",
-		GENERIC_READ | GENERIC_WRITE,
-		0,
-		NULL,
-		OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL
-	);
-
-	if (hDevice == INVALID_HANDLE_VALUE) {
-		std::cerr << "[!] Error initializing device." << std::endl;
-		return -1;
-	}
-
-	std::cout << "[+] Sending Io Control.." << std::endl;
-	DWORD nb;
-
-	if (!DeviceIoControl(hDevice,
-		IOCTL_CALCULATOR_ADD,
-		NULL,
-		NULL,
-		NULL,
-		0,
-		&nb,
-		NULL
-	)) {
-		std::cerr << "[!] DeviceIoControl Failed." << std::endl;
-	}
+	Calculator 	calc;
+	printf("10+20=%d", calc.Add(10, 20));
+	printf("30-20=%d", calc.Sub(30, 20));
+	printf("30/10=%d", calc.Div(30, 10));
+	printf("10*20=%d", calc.Mul(10, 20));
 
 	return 0;
 }
